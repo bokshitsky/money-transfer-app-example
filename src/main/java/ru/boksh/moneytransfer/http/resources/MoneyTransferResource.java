@@ -37,7 +37,7 @@ public class MoneyTransferResource {
     if (moneyTransferResult == MoneyTransferResult.FAIL_NOT_ENOUGH_MONEY) {
       throw WebExceptionsFactory.createWebException(Response.Status.CONFLICT, "Not enough money on account %s", fromAccountId);
     }
-    if (moneyTransferResult == MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_NOT_SUPPORTED_YET) {
+    if (moneyTransferResult == MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_TRANSFER_NOT_SUPPORTED_YET) {
       throw WebExceptionsFactory.createWebException(Response.Status.BAD_REQUEST, "Negative or zero transaction will be implemented in next version");
     }
     if (moneyTransferResult == MoneyTransferResult.FAIL_FROM_ACCOUNT_NOT_EXISTS) {

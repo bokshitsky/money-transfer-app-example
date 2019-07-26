@@ -18,7 +18,7 @@ public class MoneyTransferService {
     }
 
     if (moneyAmount <= 0) {
-      return MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_NOT_SUPPORTED_YET;
+      return MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_TRANSFER_NOT_SUPPORTED_YET;
     }
 
     Optional<Account> fromAccountOptional = accountStorage.getAccount(fromAccountId);

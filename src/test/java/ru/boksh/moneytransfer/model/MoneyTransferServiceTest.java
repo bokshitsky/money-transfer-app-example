@@ -55,7 +55,7 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
     Account account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     Account account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     assertEquals(
-        MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_NOT_SUPPORTED_YET,
+        MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_TRANSFER_NOT_SUPPORTED_YET,
         moneyTransferService.performMoneyTransfer(account1.getAccountId(), account2.getAccountId(), -1000)
     );
     assertAccountMoney(account1.getAccountId(), TEST_MONEY_AMOUNT);
@@ -67,7 +67,7 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
     Account account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     Account account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     assertEquals(
-        MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_NOT_SUPPORTED_YET,
+        MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_TRANSFER_NOT_SUPPORTED_YET,
         moneyTransferService.performMoneyTransfer(account1.getAccountId(), account2.getAccountId(), 0)
     );
     assertAccountMoney(account1.getAccountId(), TEST_MONEY_AMOUNT);
