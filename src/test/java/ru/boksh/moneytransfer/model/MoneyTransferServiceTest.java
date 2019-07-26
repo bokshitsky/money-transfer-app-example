@@ -9,7 +9,6 @@ import ru.boksh.moneytransfer.MoneyTransferAppTestBase;
 
 public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
 
-  private static final int TEST_MONEY_AMOUNT = 100000;
   private MoneyTransferService moneyTransferService;
   private AccountStorage accountStorage;
 

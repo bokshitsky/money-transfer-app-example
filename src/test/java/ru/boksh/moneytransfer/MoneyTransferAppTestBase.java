@@ -8,6 +8,7 @@ import ru.boksh.moneytransfer.config.CommonModule;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MoneyTransferAppTestBase {
 
+  protected static final int TEST_MONEY_AMOUNT = 100000;
   private static Injector injector;
 
   protected Injector getInjector() {
