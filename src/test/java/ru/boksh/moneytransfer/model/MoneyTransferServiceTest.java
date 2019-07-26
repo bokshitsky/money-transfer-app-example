@@ -87,15 +87,29 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
   }
 
   @Test
-  void testSuccessfullMoneyTransfer() {
+  void testSuccessfulMoneyTransferFromLowerAccountIdToHigherAccountId() {
     Account account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT * 2);
     Account account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    assertTrue(account1.getAccountId() < account2.getAccountId());
     assertEquals(
         MoneyTransferResult.SUCCESS,
         moneyTransferService.performMoneyTransfer(account1.getAccountId(), account2.getAccountId(), TEST_MONEY_AMOUNT * 2)
     );
     assertAccountMoney(account1.getAccountId(), 0);
     assertAccountMoney(account2.getAccountId(), TEST_MONEY_AMOUNT * 3);
+  }
+
+  @Test
+  void testSuccessfulMoneyTransferFromHigherAccountIdToLowerAccountId() {
+    Account account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT * 2);
+    Account account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    assertTrue(account1.getAccountId() < account2.getAccountId());
+    assertEquals(
+        MoneyTransferResult.SUCCESS,
+        moneyTransferService.performMoneyTransfer(account2.getAccountId(), account1.getAccountId(), TEST_MONEY_AMOUNT)
+    );
+    assertAccountMoney(account1.getAccountId(), TEST_MONEY_AMOUNT * 3);
+    assertAccountMoney(account2.getAccountId(), 0);
   }
 
   private void assertAccountMoney(int accountId, int expectedMoney) {
