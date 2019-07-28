@@ -40,10 +40,10 @@ public class MoneyTransferResource {
     if (moneyTransferResult == MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_TRANSFER_NOT_SUPPORTED_YET) {
       throw WebExceptionsFactory.createWebException(Response.Status.BAD_REQUEST, "Negative or zero transaction will be implemented in next version");
     }
-    if (moneyTransferResult == MoneyTransferResult.FAIL_FROM_ACCOUNT_NOT_EXISTS) {
+    if (moneyTransferResult == MoneyTransferResult.FAIL_FROM_ACCOUNT_NOT_EXIST) {
       throw WebExceptionsFactory.createWebException(Response.Status.NOT_FOUND, "Account %s does not exist", fromAccountId);
     }
-    if (moneyTransferResult == MoneyTransferResult.FAIL_TO_ACCOUNT_NOT_EXISTS) {
+    if (moneyTransferResult == MoneyTransferResult.FAIL_TO_ACCOUNT_NOT_EXIST) {
       throw WebExceptionsFactory.createWebException(Response.Status.NOT_FOUND, "Account %s does not exist", toAccountId);
     }
     if (moneyTransferResult == MoneyTransferResult.FAIL_SELF_TRANSFER_IS_NOT_SUPPORTED) {

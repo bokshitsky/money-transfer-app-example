@@ -23,7 +23,7 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
     Account existingAccount = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     int accountIdHavingNoChanceToExistInTestEnv = Integer.MIN_VALUE / 2;
     assertEquals(
-        MoneyTransferResult.FAIL_FROM_ACCOUNT_NOT_EXISTS,
+        MoneyTransferResult.FAIL_FROM_ACCOUNT_NOT_EXIST,
         moneyTransferService.performMoneyTransfer(accountIdHavingNoChanceToExistInTestEnv, existingAccount.getAccountId(), 1000)
     );
     assertAccountMoney(existingAccount.getAccountId(), TEST_MONEY_AMOUNT);
@@ -34,7 +34,7 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
     Account existingAccount = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     int accountIdHavingNoChanceToExistInTestEnv = Integer.MIN_VALUE / 2;
     assertEquals(
-        MoneyTransferResult.FAIL_TO_ACCOUNT_NOT_EXISTS,
+        MoneyTransferResult.FAIL_TO_ACCOUNT_NOT_EXIST,
         moneyTransferService.performMoneyTransfer(existingAccount.getAccountId(), accountIdHavingNoChanceToExistInTestEnv, 1000)
     );
     assertAccountMoney(existingAccount.getAccountId(), TEST_MONEY_AMOUNT);

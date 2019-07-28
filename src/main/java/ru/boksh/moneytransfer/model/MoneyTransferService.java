@@ -1,6 +1,5 @@
 package ru.boksh.moneytransfer.model;
 
-import java.util.Optional;
 import javax.inject.Inject;
 
 public class MoneyTransferService {
@@ -21,14 +20,12 @@ public class MoneyTransferService {
       return MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_TRANSFER_NOT_SUPPORTED_YET;
     }
 
-    Optional<Account> fromAccountOptional = accountStorage.getAccount(fromAccountId);
-    if (fromAccountOptional.isEmpty()) {
-      return MoneyTransferResult.FAIL_FROM_ACCOUNT_NOT_EXISTS;
+    if (accountStorage.getAccount(fromAccountId).isEmpty()) {
+      return MoneyTransferResult.FAIL_FROM_ACCOUNT_NOT_EXIST;
     }
 
-    Optional<Account> toAccountOptional = accountStorage.getAccount(toAccountId);
-    if (toAccountOptional.isEmpty()) {
-      return MoneyTransferResult.FAIL_TO_ACCOUNT_NOT_EXISTS;
+    if (accountStorage.getAccount(toAccountId).isEmpty()) {
+      return MoneyTransferResult.FAIL_TO_ACCOUNT_NOT_EXIST;
     }
 
     return accountStorage.executeWithAccountLock(Math.min(fromAccountId, toAccountId), firstLockedAccount ->
