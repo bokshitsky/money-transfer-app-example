@@ -12,19 +12,19 @@ public class SimpleInMemoryAccountStorage implements AccountStorage {
   private static AtomicInteger ACCOUNT_ID_SEQUENCE = new AtomicInteger(0);
 
   @Override
-  public Optional<Account> getAccount(int accountId) {
+  public Optional<AccountView> getAccount(int accountId) {
     // return new object to save in-memory stored objects from corruption
-    return Optional.ofNullable(ACCOUNTS.get(accountId)).map(account -> new Account(account.getAccountId(), account.getMoneyAmount()));
+    return Optional.ofNullable(ACCOUNTS.get(accountId)).map(account -> new AccountView(account.getAccountId(), account.getMoneyAmount()));
   }
 
   @Override
-  public <T> T executeWithAccountLock(int accountId, Function<Account, T> operation) {
+  public <T> T executeWithAccountLock(int accountId, Function<AccountView, T> operation) {
     Account account = ACCOUNTS.get(accountId);
 
     // Synchronization on local variable, assumes account can not be deleted, account object is mutable
     // and new account object never recreated in storage for accountId
     synchronized (account) {
-      return operation.apply(new Account(account.getAccountId(), account.getMoneyAmount()));
+      return operation.apply(new AccountView(account.getAccountId(), account.getMoneyAmount()));
     }
   }
 
@@ -35,10 +35,10 @@ public class SimpleInMemoryAccountStorage implements AccountStorage {
   }
 
   @Override
-  public Account createAccount(int initialMoneyAmount) {
+  public AccountView createAccount(int initialMoneyAmount) {
     int newAccountId = ACCOUNT_ID_SEQUENCE.getAndIncrement();
     ACCOUNTS.put(newAccountId, new Account(newAccountId, initialMoneyAmount));
     // return new object to save in-memory stored objects from corruption
-    return new Account(newAccountId, initialMoneyAmount);
+    return new AccountView(newAccountId, initialMoneyAmount);
   }
 }

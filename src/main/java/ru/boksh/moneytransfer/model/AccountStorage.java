@@ -5,12 +5,12 @@ import java.util.function.Function;
 
 public interface AccountStorage {
 
-  Optional<Account> getAccount(int accountId);
+  Optional<AccountView> getAccount(int accountId);
 
-  <T> T executeWithAccountLock(int accountId, Function<Account, T> operation);
+  <T> T executeWithAccountLock(int accountId, Function<AccountView, T> operation);
 
   void setAccountMoney(int accountId, int newMoneyAmount);
 
-  Account createAccount(int initialMoneyAmount);
+  AccountView createAccount(int initialMoneyAmount);
 
 }

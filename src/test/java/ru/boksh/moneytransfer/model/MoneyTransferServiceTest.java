@@ -20,7 +20,7 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
 
   @Test
   void testTransferFromNonExistingAccountMustFail() {
-    Account existingAccount = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView existingAccount = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     int accountIdHavingNoChanceToExistInTestEnv = Integer.MIN_VALUE / 2;
     assertEquals(
         MoneyTransferResult.FAIL_FROM_ACCOUNT_NOT_EXIST,
@@ -31,7 +31,7 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
 
   @Test
   void testTransferToNonExistingAccountMustFail() {
-    Account existingAccount = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView existingAccount = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     int accountIdHavingNoChanceToExistInTestEnv = Integer.MIN_VALUE / 2;
     assertEquals(
         MoneyTransferResult.FAIL_TO_ACCOUNT_NOT_EXIST,
@@ -42,7 +42,7 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
 
   @Test
   void testTransferBetweenSameAccountMustFail() {
-    Account account = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView account = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     assertEquals(
         MoneyTransferResult.FAIL_SELF_TRANSFER_IS_NOT_SUPPORTED,
         moneyTransferService.performMoneyTransfer(account.getAccountId(), account.getAccountId(), 1000)
@@ -52,8 +52,8 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
 
   @Test
   void testNegativeMoneyTransferNotSupported() {
-    Account account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
-    Account account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     assertEquals(
         MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_TRANSFER_NOT_SUPPORTED_YET,
         moneyTransferService.performMoneyTransfer(account1.getAccountId(), account2.getAccountId(), -1000)
@@ -64,8 +64,8 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
 
   @Test
   void testZeroMoneyTransferNotSupported() {
-    Account account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
-    Account account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     assertEquals(
         MoneyTransferResult.FAIL_NON_POSITIVE_MONEY_TRANSFER_NOT_SUPPORTED_YET,
         moneyTransferService.performMoneyTransfer(account1.getAccountId(), account2.getAccountId(), 0)
@@ -76,8 +76,8 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
 
   @Test
   void testTransferWithoutEnoughMoneyMustFail() {
-    Account account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
-    Account account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     assertEquals(
         MoneyTransferResult.FAIL_NOT_ENOUGH_MONEY,
         moneyTransferService.performMoneyTransfer(account1.getAccountId(), account2.getAccountId(), TEST_MONEY_AMOUNT * 2)
@@ -88,8 +88,8 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
 
   @Test
   void testSuccessfulMoneyTransferFromLowerAccountIdToHigherAccountId() {
-    Account account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT * 2);
-    Account account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT * 2);
+    AccountView account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     assertTrue(account1.getAccountId() < account2.getAccountId());
     assertEquals(
         MoneyTransferResult.SUCCESS,
@@ -101,8 +101,8 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
 
   @Test
   void testSuccessfulMoneyTransferFromHigherAccountIdToLowerAccountId() {
-    Account account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT * 2);
-    Account account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
+    AccountView account1 = accountStorage.createAccount(TEST_MONEY_AMOUNT * 2);
+    AccountView account2 = accountStorage.createAccount(TEST_MONEY_AMOUNT);
     assertTrue(account1.getAccountId() < account2.getAccountId());
     assertEquals(
         MoneyTransferResult.SUCCESS,
@@ -113,7 +113,7 @@ public class MoneyTransferServiceTest extends MoneyTransferAppTestBase {
   }
 
   private void assertAccountMoney(int accountId, int expectedMoney) {
-    Optional<Account> accountOptional = accountStorage.getAccount(accountId);
+    Optional<AccountView> accountOptional = accountStorage.getAccount(accountId);
     assertTrue(accountOptional.isPresent());
     assertEquals(expectedMoney, accountOptional.get().getMoneyAmount());
   }

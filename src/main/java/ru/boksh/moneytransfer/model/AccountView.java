@@ -1,11 +1,11 @@
 package ru.boksh.moneytransfer.model;
 
-public class Account {
+public class AccountView {
 
   private final int accountId;
-  private int moneyAmount;
+  private final int moneyAmount;
 
-  public Account(int accountId, int moneyAmount) {
+  public AccountView(int accountId, int moneyAmount) {
     this.accountId = accountId;
     this.moneyAmount = moneyAmount;
   }
@@ -18,8 +18,4 @@ public class Account {
     return moneyAmount;
   }
 
-  public Account setMoneyAmount(int moneyAmount) {
-    this.moneyAmount = moneyAmount;
-    return this;
-  }
 }

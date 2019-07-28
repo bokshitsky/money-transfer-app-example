@@ -11,8 +11,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ru.boksh.moneytransfer.http.WebExceptionsFactory;
 import ru.boksh.moneytransfer.http.dtos.AccountDto;
-import ru.boksh.moneytransfer.model.Account;
 import ru.boksh.moneytransfer.model.AccountStorage;
+import ru.boksh.moneytransfer.model.AccountView;
 
 @Path("/account")
 @Produces(MediaType.APPLICATION_JSON)
@@ -31,7 +31,7 @@ public class AccountResource {
       throw WebExceptionsFactory.createWebException(Response.Status.BAD_REQUEST, "'money' param is required");
     }
     // Assume negative balance is supported on account create
-    Account account = accountStorage.createAccount(moneyAmount);
+    AccountView account = accountStorage.createAccount(moneyAmount);
     return new AccountDto(account.getAccountId(), account.getMoneyAmount());
   }
 

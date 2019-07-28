@@ -30,8 +30,8 @@ public class MoneyTransferService {
 
     return accountStorage.executeWithAccountLock(Math.min(fromAccountId, toAccountId), firstLockedAccount ->
         accountStorage.executeWithAccountLock(Math.max(fromAccountId, toAccountId), secondLockedAccount -> {
-          final Account fromAccount;
-          final Account toAccount;
+          final AccountView fromAccount;
+          final AccountView toAccount;
           if (fromAccountId == firstLockedAccount.getAccountId()) {
             fromAccount = firstLockedAccount;
             toAccount = secondLockedAccount;
