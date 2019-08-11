@@ -40,4 +40,11 @@ public class AccountResourceIntegrationTest extends AppIntegrationTestBase {
     assertEquals(accountMoney, accountDto.getMoney());
     assertEquals(accountId, accountDto.getId());
   }
+
+  @Test
+  public void testCreateAccountWithoutMoneyMustFail() {
+    ResponseOrError<AccountDto, ErrorDto> errorResponse = appTestClient.createAccount(null);
+    assertFalse(errorResponse.isSuccess());
+    assertEquals(Response.SC_BAD_REQUEST, errorResponse.getStatusCode());
+  }
 }

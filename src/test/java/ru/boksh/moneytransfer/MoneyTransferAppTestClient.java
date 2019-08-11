@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.annotation.Nullable;
 import javax.ws.rs.core.UriBuilder;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -68,15 +70,18 @@ public class MoneyTransferAppTestClient {
     return parseAccountOrError(httpResponse);
   }
 
-  public ResponseOrError<AccountDto, ErrorDto> createAccount(int amountOfMoney) {
-    HttpResponse httpResponse = executePost("/account", Map.of("money", String.valueOf(amountOfMoney)));
+  public ResponseOrError<AccountDto, ErrorDto> createAccount(@Nullable Integer amountOfMoney) {
+    HttpResponse httpResponse = executePost(
+        "/account",
+        Optional.ofNullable(amountOfMoney).map(money -> Map.of("money", String.valueOf(money))).orElseGet(Map::of)
+    );
     return parseAccountOrError(httpResponse);
   }
 
-  public ResponseOrError<Object, ErrorDto> performMoneyTransfer(int accountIdFrom, int accountIdTo, int amountOfMoney) {
+  public ResponseOrError<Object, ErrorDto> performMoneyTransfer(int accountIdFrom, int accountIdTo, @Nullable Integer amountOfMoney) {
     HttpResponse httpResponse = executePost(
         String.format("/moneyTransfer/from/%s/to/%s", accountIdFrom, accountIdTo),
-        Map.of("money", String.valueOf(amountOfMoney))
+        Optional.ofNullable(amountOfMoney).map(money -> Map.of("money", String.valueOf(money))).orElseGet(Map::of)
     );
     return parseNoContentOrError(httpResponse);
   }

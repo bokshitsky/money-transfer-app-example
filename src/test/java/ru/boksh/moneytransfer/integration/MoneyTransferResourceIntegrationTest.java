@@ -55,6 +55,43 @@ public class MoneyTransferResourceIntegrationTest extends AppIntegrationTestBase
 
     ResponseOrError<Object, ErrorDto> errorResponse = appTestClient.performMoneyTransfer(accountFromId, accountToId, TEST_MONEY_AMOUNT * 3);
     assertFalse(errorResponse.isSuccess());
+    assertEquals(Response.SC_CONFLICT, errorResponse.getStatusCode());
+    assertAccountMoney(accountFromId, TEST_MONEY_AMOUNT * 2);
+    assertAccountMoney(accountToId, TEST_MONEY_AMOUNT);
+  }
+
+  @Test
+  public void testNegativeMoneyTransferIsNotSupported() {
+    Integer accountFromId = appTestClient.createAccount(TEST_MONEY_AMOUNT * 2).getEntity().getId();
+    Integer accountToId = appTestClient.createAccount(TEST_MONEY_AMOUNT).getEntity().getId();
+
+    ResponseOrError<Object, ErrorDto> errorResponse = appTestClient.performMoneyTransfer(accountFromId, accountToId, -TEST_MONEY_AMOUNT);
+    assertFalse(errorResponse.isSuccess());
+    assertEquals(Response.SC_BAD_REQUEST, errorResponse.getStatusCode());
+    assertAccountMoney(accountFromId, TEST_MONEY_AMOUNT * 2);
+    assertAccountMoney(accountToId, TEST_MONEY_AMOUNT);
+  }
+
+  @Test
+  public void testZeroMoneyTransferIsNotSupported() {
+    Integer accountFromId = appTestClient.createAccount(TEST_MONEY_AMOUNT * 2).getEntity().getId();
+    Integer accountToId = appTestClient.createAccount(TEST_MONEY_AMOUNT).getEntity().getId();
+
+    ResponseOrError<Object, ErrorDto> errorResponse = appTestClient.performMoneyTransfer(accountFromId, accountToId, 0);
+    assertFalse(errorResponse.isSuccess());
+    assertEquals(Response.SC_BAD_REQUEST, errorResponse.getStatusCode());
+    assertAccountMoney(accountFromId, TEST_MONEY_AMOUNT * 2);
+    assertAccountMoney(accountToId, TEST_MONEY_AMOUNT);
+  }
+
+  @Test
+  public void testMoneyTransferWithoutSpecifiedMoneyAmountMustFail() {
+    Integer accountFromId = appTestClient.createAccount(TEST_MONEY_AMOUNT * 2).getEntity().getId();
+    Integer accountToId = appTestClient.createAccount(TEST_MONEY_AMOUNT).getEntity().getId();
+
+    ResponseOrError<Object, ErrorDto> errorResponse = appTestClient.performMoneyTransfer(accountFromId, accountToId, null);
+    assertFalse(errorResponse.isSuccess());
+    assertEquals(Response.SC_BAD_REQUEST, errorResponse.getStatusCode());
     assertAccountMoney(accountFromId, TEST_MONEY_AMOUNT * 2);
     assertAccountMoney(accountToId, TEST_MONEY_AMOUNT);
   }
