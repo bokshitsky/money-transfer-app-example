@@ -2,18 +2,20 @@ package ru.boksh.moneytransfer.integration;
 
 import org.eclipse.jetty.server.Response;
 import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.Test;
 import ru.boksh.moneytransfer.ResponseOrError;
 import ru.boksh.moneytransfer.http.dtos.AccountDto;
 import ru.boksh.moneytransfer.http.dtos.ErrorDto;
 
-public class AccountResourceIntegrationTest extends MoneyTransferAppIntegrationTestBase {
+public class AccountResourceIntegrationTest extends AppIntegrationTestBase {
 
   @Test
   public void testGetNonExistingAccountReturnsNotFound() {
     ResponseOrError<AccountDto, ErrorDto> errorResponse = appTestClient.getAccount(NON_EXISTING_ACCOUNT_ID);
-    Assertions.assertFalse(errorResponse.isSuccess());
-    Assertions.assertEquals(Response.SC_NOT_FOUND, errorResponse.getStatusCode());
+    assertFalse(errorResponse.isSuccess());
+    assertEquals(Response.SC_NOT_FOUND, errorResponse.getStatusCode());
   }
 
   @Test
@@ -23,7 +25,7 @@ public class AccountResourceIntegrationTest extends MoneyTransferAppIntegrationT
 
     Assertions.assertTrue(accountResponse.isSuccess());
     AccountDto accountDto = accountResponse.getEntity();
-    Assertions.assertEquals(accountMoney, accountDto.getMoney());
+    assertEquals(accountMoney, accountDto.getMoney());
     Assertions.assertNotNull(accountDto.getId());
   }
 
@@ -35,7 +37,7 @@ public class AccountResourceIntegrationTest extends MoneyTransferAppIntegrationT
     ResponseOrError<AccountDto, ErrorDto> accountResponse = appTestClient.getAccount(accountId);
     Assertions.assertTrue(accountResponse.isSuccess());
     AccountDto accountDto = accountResponse.getEntity();
-    Assertions.assertEquals(accountMoney, accountDto.getMoney());
-    Assertions.assertEquals(accountId, accountDto.getId());
+    assertEquals(accountMoney, accountDto.getMoney());
+    assertEquals(accountId, accountDto.getId());
   }
 }

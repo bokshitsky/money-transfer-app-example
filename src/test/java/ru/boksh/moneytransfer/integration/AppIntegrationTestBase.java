@@ -7,7 +7,7 @@ import ru.boksh.moneytransfer.MoneyTransferApp;
 import ru.boksh.moneytransfer.MoneyTransferAppTestBase;
 import ru.boksh.moneytransfer.MoneyTransferAppTestClient;
 
-public abstract class MoneyTransferAppIntegrationTestBase extends MoneyTransferAppTestBase {
+public abstract class AppIntegrationTestBase extends MoneyTransferAppTestBase {
 
   // assume nobody can create same id during test
   protected static int NON_EXISTING_ACCOUNT_ID = Integer.MIN_VALUE;
