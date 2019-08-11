@@ -36,7 +36,7 @@ public class AccountResource {
   }
 
   @GET
-  @Path("/{accountId:[0-9]+}")
+  @Path("/{accountId:-?[0-9]+}")
   public AccountDto getAccount(@PathParam("accountId") int accountId) {
     return accountStorage.getAccount(accountId)
         .map(account -> new AccountDto(account.getAccountId(), account.getMoneyAmount()))

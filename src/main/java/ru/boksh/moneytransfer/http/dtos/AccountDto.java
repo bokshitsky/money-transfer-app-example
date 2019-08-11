@@ -17,4 +17,12 @@ public class AccountDto {
 
   public AccountDto() {
   }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public Integer getMoney() {
+    return money;
+  }
 }

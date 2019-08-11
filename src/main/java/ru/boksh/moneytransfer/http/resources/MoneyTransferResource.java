@@ -24,8 +24,7 @@ public class MoneyTransferResource {
   }
 
   @POST
-  @Path("/from/{fromAccountId:[0-9]+}/to/{toAccountId:[0-9]+}")
-  // POST запрос на /moneyTransfer со всеми данными транзакции в теле более "rest-овый", но такой проще искать в логах + нужно меньше валидации
+  @Path("/from/{fromAccountId:-?[0-9]+}/to/{toAccountId:-?[0-9]+}")
   public Response performMoneyTransfer(@PathParam("fromAccountId") int fromAccountId,
                                        @PathParam("toAccountId") int toAccountId,
                                        @FormParam("money") Integer moneyAmount) {
