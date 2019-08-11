@@ -1,17 +1,17 @@
 
-# Приложение по переводу денег от одного аккаунта к другому
+# App for money trasfer between accounts
 
-## Запуск
+## Test run
 
 ```
 mvn clean package
 mvn exec:java -DsettingsDir=.
 ```
 
-Приложение будет слушать на порту прописанном в файле `moneytransfer.properties` (сейчас 8080) 
+App starts on port specified in `moneytransfer.properties` file (8080 now) 
 
 
-## Примеры вызовов http api
+## Http api example
 
 ```bash
 curl --data "money=1000" 127.0.0.1:8080/account
@@ -44,9 +44,9 @@ curl 127.0.0.1:8080/account/1
   # {"id":1,"money":3000}
 ```
 
-## Краткое описание технологий
+## Brief description
 
-Для приема запросов используется jetty + jersey сервлет.  
-Все данные по аккаунтам хранятся в обычной мапе в памяти.  
-В качестве IoC контейнера используется Guice.
- 
+Http requests are handled by jetty + jersey servlet.  
+All account data is stored in memory in simple HashMap.  
+Google Guice is used for dependency injection.  
+Note: Integer type is used for money amount instead of BigDecimal for simplicity.
