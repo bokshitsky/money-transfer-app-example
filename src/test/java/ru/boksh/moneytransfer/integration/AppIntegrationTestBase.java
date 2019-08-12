@@ -17,8 +17,11 @@ public abstract class AppIntegrationTestBase extends MoneyTransferAppTestBase {
 
   @BeforeAll
   void setUp() {
+    // assume tests are single-threaded
     if (moneyTransferApp == null) {
       Injector injector = getInjector();
+
+      // jetty start is blocking, so here we wait until server start handling requests
       moneyTransferApp = injector.getInstance(MoneyTransferApp.class).start();
       appTestClient = new MoneyTransferAppTestClient(HttpClientBuilder.create().build(), moneyTransferApp.getJettyServer().getURI());
     }
